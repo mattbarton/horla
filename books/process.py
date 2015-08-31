@@ -1,6 +1,11 @@
 from __future__ import division
 import nltk, codecs
 
+def pieces(s):
+    if len(s) > 40:
+        s = s.replace(', ', ', !!SENT!! ')
+    return s
+
 #f=open('le_horla.txt')  # Python 2.7 sucks
 with codecs.open('le_horla.txt', encoding='utf-8') as f:
   txt=f.read()
@@ -8,8 +13,32 @@ with codecs.open('le_horla.txt', encoding='utf-8') as f:
 txt = txt.replace('\n', '<br/>')
 nltk.data.load('tokenizers/punkt/french.pickle')      # tokenizers/punkt/french.pickle
 sentences = nltk.sent_tokenize(txt)
-result = '<SENT/>'.join(sentences)
+sentences = [pieces(s) for s in sentences]
+
+
+result = ' !!SENT!! '.join(sentences)
 result = result.replace('<br/>', '\n')
 
-with codecs.open('out', 'w', encoding='utf-8') as out:
+# conver to RST
+result = result.replace('_', '*')  # italics
+result = result.replace('       *       *       *       *       *', '*****')
+
+with codecs.open('out.txt', 'w', encoding='utf-8') as out:
     out.write(result)
+
+# From rst2html.py
+import subprocess
+subprocess.call('rst2html.py out.txt > out.html', shell=True)
+
+with codecs.open('out.html', encoding='utf-8') as f:
+  txt=f.read()
+
+txt = txt.replace('<p>', '<p><span>')
+txt = txt.replace('</p>', '</span></p>')
+txt = txt.replace('!!SENT!!', '</span><span>')
+txt = txt.replace('--', '&nbsp;&mdash;&nbsp;')
+
+txt = txt.replace('<span></span>', '')
+
+with codecs.open('out2.html', 'w', encoding='utf-8') as out:
+    out.write(txt)

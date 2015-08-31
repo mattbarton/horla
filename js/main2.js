@@ -13,7 +13,7 @@ function Player ( url, el ) {
   this.message = el.querySelector('.message');
 
   this.time_position = el.querySelector('.time_position');
-  this.paragraphs = $("#book p");
+  this.textpieces = $("#book span");
 
   this.message.innerHTML = 'Loading';
   this.bindEvents();
@@ -21,6 +21,8 @@ function Player ( url, el ) {
   this.marks = [];
   this.cur_para = 0;
   this.marks_el = el.querySelector('.marks');
+
+  this.le_horla_marks = [27.15,29.22,30.08,32.35,34.13,36,39.01,41.49,44.42,47.05,48.95,50.39,51.56,52.79,54.03];
 }
 
 Player.prototype.bindEvents = function() {
@@ -149,8 +151,8 @@ Player.prototype.draw = function() {
 
   this.time_position.innerHTML = this.position;
 
-  if (this.cur_para > 0) { $(this.paragraphs[this.cur_para - 1]).css("font-weight","normal"); }
-  $(this.paragraphs[this.cur_para]).css("font-weight","Bold");
+  if (this.cur_para > 0) { $(this.textpieces[this.cur_para - 1]).css("font-weight","normal"); }
+  $(this.textpieces[this.cur_para]).css("font-weight","Bold");
 
   requestAnimationFrame(this.draw.bind(this));
 };
