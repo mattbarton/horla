@@ -1,0 +1,132 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.js"></script>
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />  
+</head>
+
+<body>
+  <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <p><span>Hello world! This is HTML5 Boilerplate. main2</p>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        
+        <script src="https://fb.me/react-0.13.3.js"></script>
+        <!-- In-browser JSX transformer, remove when pre-compiling JSX. -->
+        <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+        
+
+      <div id='content'></div>
+        
+    <script type="text/jsx">
+    
+var AudioPlayer = React.createClass({
+  render: function() {
+    return (
+      <div></div>
+    );
+  }
+});
+var PlayerControls = React.createClass({
+  render: function() {
+    return (
+        <div className="player">
+            <p className="message"></p>
+            <div className="controls">
+              <button className="button">Loop sentence</button>
+              <button className="button fa fa-play"></button>
+            </div>
+            <div className="time_position">
+              {this.props.position}
+            </div>
+            <div className="marks"></div>
+       </div>
+    );
+  }
+});
+
+var textPage =
+  <div>
+  <p><span data-fragment="0"><em>8 mai.</em>&nbsp;&mdash;&nbsp;Quelle journée admirable! </span><span data-fragment="1"> J'ai passé toute la matinée étendu sur
+  l'herbe, </span><span data-fragment="2"> devant ma maison, </span><span data-fragment="3"> sous l'énorme platane qui la couvre, </span><span data-fragment="4"> l'abrite et
+  l'ombrage tout entière. </span><span data-fragment="5"> J'aime ce pays, </span><span data-fragment="6"> et j'aime y vivre parce que j'y ai
+  mes racines, </span><span data-fragment="7"> ces profondes et délicates racines, </span><span data-fragment="8"> qui attachent un homme à
+  la terre où sont nés et morts ses aïeux, </span><span data-fragment="9"> qui l'attachent à ce qu'on pense
+  et à ce qu'on mange, </span><span data-fragment="10"> aux usages comme aux nourritures, </span><span data-fragment="11"> aux locutions
+  locales, </span><span data-fragment="12"> aux intonations des paysans, </span><span data-fragment="13"> aux odeurs du sol, </span><span data-fragment="14"> des villages et de
+  l'air lui-même. </span></p>
+  <p><span data-fragment="15">J'aime ma maison où j'ai grandi. </span><span data-fragment="16"> De mes fenêtres, </span><span data-fragment="17"> je vois la Seine qui
+  coule, </span><span data-fragment="18"> le long de mon jardin, </span><span data-fragment="19"> derrière la route, </span><span data-fragment="20"> presque chez moi, </span><span data-fragment="21"> la
+  grande et large Seine, </span><span data-fragment="22"> qui va de Rouen au Havre, </span><span data-fragment="23"> couverte de bateaux qui
+  passent. </span></p>
+  </div>
+     ;
+
+
+
+var PageText = React.createClass({
+  handleClick: function(event) {
+    var frag_num = event.target.getAttribute('data-fragment');
+    if (!frag_num) {
+      frag_num = event.target.parentElement.getAttribute('data-fragment');
+    }
+    this.props.changepos(frag_num);
+  },
+  render: function() {
+    return (
+      <section onClick={this.handleClick}>
+      {this.props.text}
+      </section>
+    );
+  }
+});
+var View = React.createClass({
+  getInitialState: function() {
+    return {
+      position: 0
+    }
+  },
+  updatePosition: function(newpos) {
+    this.setState({
+      position: newpos
+    });
+  },
+  render: function() {
+    return (
+    <div>
+      <PlayerControls position={this.state.position} />
+      <AudioPlayer />
+      <PageText text={textPage} changepos={this.updatePosition} />
+     </div>
+    );
+  }
+});
+React.render(
+  <View />
+  ,document.getElementById('content')
+);
+</script>
+
+
+</body>
+
+</html>

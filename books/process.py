@@ -40,5 +40,17 @@ txt = txt.replace('--', '&nbsp;&mdash;&nbsp;')
 
 txt = txt.replace('<span></span>', '')
 
+class Counter:
+    def __init__(self):
+        self.count = -1
+    def increment(self, matchObject):
+        self.count += 1
+        return '<span data-fragment="' + str(self.count) + '">'
+c = Counter()
+
+import re
+span_re = re.compile('<span>')
+txt = span_re.sub(c.increment, txt) 
+
 with codecs.open('out2.html', 'w', encoding='utf-8') as out:
     out.write(txt)
