@@ -2,6 +2,7 @@
 # vi: set ft=ruby :
 
 $script = <<SCRIPT
+git config --global credential.helper cache
 git config --global user.email bartonmr@gmail.com
 echo Shared folders suck on Windows, so just do everything in the VM using a repo in the VM home directory
 mkdir /home/vagrant/repos
