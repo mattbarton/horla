@@ -2,10 +2,11 @@
 # vi: set ft=ruby :
 
 $script = <<SCRIPT
-echo Shared folders suck on Windows, so just do everything in the VM using a repo in the (not shared) home directory
-mkdir ~/repos
-git clone https://github.com/mattbarton/horla.git horla
-cd ~/repos/horla
+echo Shared folders suck on Windows, so just do everything in the VM using a repo in the VM home directory
+mkdir /home/vagrant/repos
+git clone https://github.com/mattbarton/horla.git /home/vagrant/repos/horla
+chown -R vagrant:vagrant /home/vagrant/repos
+cd /home/vagrant/repos/horla
 SCRIPT
 
 Vagrant.configure(2) do |config|
