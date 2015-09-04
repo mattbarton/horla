@@ -1,9 +1,9 @@
 var path = require('path');
 var merge = require('webpack-merge');
 var webpack = require('webpack');
-var TARGET = process.env.TARGET;
+
+var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var common = {
 
@@ -18,17 +18,11 @@ var common = {
     filename: 'bundle.js'
   },
 
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: 'React ES2015'
-    })
-  ],
-
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
-        loaders: ['react-hot', 'babel?stage=1'],
+        loaders: ['babel'],
         include: path.resolve(ROOT_PATH, 'app')
       },
 
@@ -40,34 +34,20 @@ var common = {
   }
 };
 
-switch (TARGET) {
-  case 'build':
-    module.exports = merge(common, {
-      plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-          compress: {
-            warnings: false
-          }
-        }),
-        new webpack.DefinePlugin({
-          'process.env': {
-            'NODE_ENV': JSON.stringify('production')
-          }
-        })
-      ]
-    });
-
-    break;
-
-  case 'dev':
-    module.exports = merge(common, {
-      entry: [
-        'webpack-dev-server/client?http://0.0.0.0:8080',
-        'webpack/hot/dev-server'
-      ],
-      devServer: {
-        host: '0.0.0.0'
+if (TARGET === 'start') {
+  module.exports = merge(common, {
+    devtool: 'cheap-module-eval-source-map',
+    devServer: {
+      quiet: false,
+      inline: false,
+      progress: true,
+      host: "0.0.0.0",
+      watchOptions: {
+        aggregateTimeout: 300,
+        poll: 500
       }
-    });
-    break;
+    }
+  });
+} else {
+  module.exports = common;
 }
