@@ -97,6 +97,7 @@ function setCallback(func) {
 
 module.exports = function(opts) {
   url = opts.url;
+  // callback gets called with position updates every 100ms or so
   callback = opts.callback || function() {};
   fetch();
   return {
