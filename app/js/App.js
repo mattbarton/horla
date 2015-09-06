@@ -1,3 +1,7 @@
+/**
+ *  The main component of the app
+ * @module
+ */
 import React from 'react';
 
 import PlayerControls from './PlayerControls'
@@ -10,8 +14,18 @@ export default class App extends React.Component {
       currentTime: 0,
       currentFragment: null,
       text: 'Loading',
-      marks: []
+      marks: [],
+      audio: 'No audio',
+      repeatFrag: false
     };
+  }
+  loadAudio() {
+    let url = 'books/lehorla_01_maupassant_64kb.mp3';
+    this.props.player.fetch(url, () => {
+      this.setState({
+        audio: 'Ready'
+      });
+    });
   }
   loadText() {
     let xhr = new XMLHttpRequest();
@@ -24,15 +38,26 @@ export default class App extends React.Component {
     };
     xhr.send();
   }
+  getFragment(time) {
+    return -1 + _.findIndex(this.state.marks, (mark) => mark > time)
+  }
+  getCurrentFragment() {
+    return this.getFragment(this.state.time);
+  }
+  onTimeChange(time) {
+    if (this.state.repeatFrag && this.getFragment(time) !== this.getCurrentFragment()) {
+      console.log('repeat');
+      changeFragment(getCurrentFragment());
+    } else {
+      this.setState({currentTime: time});
+    }
+  }
   componentDidMount() {
-    this.props.player.setCallback((time) => this.setState({currentTime: time}));
+    this.props.player.setCallback(this.onTimeChange.bind(this));
   }
   componentWillUnmount() {
     this.props.player.setCallback(function() {});
   }  
-  getCurrentFragment() {
-      return -1 + _.findIndex(this.state.marks, (x) => x > this.state.currentTime)
-  }
   changeFragment(frag_num) {
     console.log(frag_num);
     var time = this.state.marks[frag_num];
@@ -45,12 +70,18 @@ export default class App extends React.Component {
       p.play(time);
      }, 1000);
   }
+  setRepeatFrag(event) {
+    this.setState({repeatFrag: event.target.value});
+  }
   
   render() {
     let fragment = this.getCurrentFragment(this.state.currentTime);
     return (
     <div>
       <button onClick={this.loadText.bind(this)}>Load text</button>
+      <button onClick={this.loadAudio.bind(this)}>Load audio</button>
+      <input type="checkbox" onChange={this.setRepeatFrag.bind(this)} /><label>Repeat</label>
+      <div>Audio: {this.state.audio}</div>
       <div>Fragment: {fragment}</div>
       <div>Time: {this.state.currentTime}</div>
       <PlayerControls currentTime={this.state.currentTime} player={this.props.player}/>
