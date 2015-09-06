@@ -13,8 +13,9 @@ git clone https://github.com/mattbarton/horla.git /home/vagrant/repos/horla
 chown -R vagrant:vagrant /home/vagrant/repos
 cd /home/vagrant/repos/horla
 git remote set-url origin https://mattbarton@github.com/mattbarton/horla.git
-sudo yum install vim-enhanced
+sudo yum install -y vim-enhanced
 echo "alias vi=vim" >> /home/vagrant/.bashrc
+sudo yum install -y tmux zsh
 SCRIPT
 
 Vagrant.configure(2) do |config|
