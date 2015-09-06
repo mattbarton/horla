@@ -1,6 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Recommended to install solarized palette for the terminal on your host machine, for example
+# on Windows see: http://www.trueneutral.eu/2014/win-proper-term.html
+
 $script = <<SCRIPT
 git config --global credential.helper cache
 git config --global user.email bartonmr@gmail.com
