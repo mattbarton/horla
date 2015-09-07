@@ -10,6 +10,10 @@ export default class TextReader extends React.Component {
     this.props.changeFragment(index);
     console.log(index);
   }
+  shouldComponentUpdate(nextProps) {
+    return (nextProps.text != this.props.text) ||
+           (nextProps.currentFragment != this.props.currentFragment);
+  }
   render() {
     let lines = this.props.text.split('\n').slice(0, 100);
     let out = lines.map((line, index) => {
