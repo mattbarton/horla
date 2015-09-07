@@ -1,6 +1,6 @@
 
 import React from 'react';
-var css = require('./TextReader.css');
+require('./TextReader.css');
 
 export default class TextReader extends React.Component {
   constructor(props) {
@@ -24,7 +24,7 @@ export default class TextReader extends React.Component {
           className += " highlight";
         }
       }
-      return <div className={className} key={index} frag={index} onClick={this.onClick.bind(this, index)}>{text}</div>
+      return <div className={className} key={index} frag={index} onClick={this.onClick.bind(this, index)}>{text}</div>;
     });
     return (
       <div>{out}</div>
