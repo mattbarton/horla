@@ -1,6 +1,6 @@
 
 import React from 'react';
-require('./TextReader.css');
+import './TextReader.css';
 
 export default class TextReader extends React.Component {
   constructor(props) {
