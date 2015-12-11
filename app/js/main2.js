@@ -1,5 +1,15 @@
+/*
+[2.03,4.18,7.21,9.08,13.93,16.58,19.26,22.01,23.89,26.63,29.29,32.23,34.88,36.48,38.76,41.81,47.19,49.26,51.81,54.28,57.16,60.3,63.14,65.53,66.79,69.73,72.71,75.44,78.18,79.86,81.96,84.1,85.96,88.68,90.94,92.71,99.91,101.53]
+LE HORLA
+
+
+[23.8,27.15,29.27,32.38,34.22,36.23,39.07,41.53,44.33,47.03,49,51.8,54.25,57.32,59.87,61.63,63.92,67.05,72.32,74.4,76.3,77.52,79.43,82.35,85.45,88.32,90.28,92.03,94.73,98.02,100.52,103.6,105.03,109.28,111.25,113.83,116.05,117.88,125,126.55,132.5,136.9,138.9,147.68,152.55,155.47,158.07,159.9,162.17,163.38,166.77,168.72,170.63,173.08,180.29,183.63,186.98,190.03,192.36,194.71,196.51,198.41,201.33,208.26,213.01,215.79,218.53,223.61,226.65,232.94,235.18,237.68,240.18,242.08,245.75,249.25,252.88,255.28,259.66,260.96,264.61,266.73,270.85]
+
+*/
+
+
 // var url = 'http://static.kevvv.in/sounds/callmemaybe.mp3',
-var url = 'books/lehorla_01_maupassant_64kb.mp3',
+var url = 'books/horla_extract.mp3',
   playerElement = document.querySelector('.player');
 
 function Player ( url, el ) {
@@ -33,7 +43,12 @@ Player.prototype.bindEvents = function() {
 };
 
 
+
 Player.prototype.fetch = function() {
+  //this.decode()
+  //var url = URL.createObjectURL(file)
+  return
+  
   var xhr = new XMLHttpRequest();
   xhr.open('GET', this.url, true);
   xhr.responseType = 'arraybuffer';
@@ -44,6 +59,7 @@ Player.prototype.fetch = function() {
 };
 
 Player.prototype.decode = function( arrayBuffer ) {
+  this.time_position.innerHTML = "decoding"
   this.ac.decodeAudioData(arrayBuffer, function( audioBuffer ) {
     this.message.innerHTML = '';
     this.buffer = audioBuffer;
@@ -175,3 +191,26 @@ $(window).keypress(function(event) {
     window.player.saveMark()
   }
 })
+
+$(function () {
+  document.getElementById("file").addEventListener('change', function(evt) {
+    console.log(evt)
+    var files = evt.target.files;
+
+    var fileReader = new FileReader;
+    fileReader.onload = function() {
+      var arrayBuffer = this.result
+      window.player.decode(arrayBuffer)
+    }
+    fileReader.readAsArrayBuffer(files[0])
+    
+  }, false);
+  
+  document.getElementById("input_pos").addEventListener('change', function(evt) {
+    window.player.pause()
+    window.player.seek(evt.target.value)
+    
+  }, false);
+  
+})
+
