@@ -4,18 +4,18 @@
 # Recommended to install solarized palette for the terminal on your host machine, for example
 # on Windows see: http://www.trueneutral.eu/2014/win-proper-term.html
 
+
+# script to be run as 'vagrant' user, not root, usig `privileged: false`
 $script = <<SCRIPT
 git config --global credential.helper cache
 git config --global user.email bartonmr@gmail.com
 echo Shared folders suck on Windows, so just do everything in the VM using a repo in the VM home directory
-mkdir /home/vagrant/repos
-git clone https://github.com/mattbarton/horla.git /home/vagrant/repos/horla
-chown -R vagrant:vagrant /home/vagrant/repos
-cd /home/vagrant/repos/horla
+mkdir ~/repos
+git clone https://github.com/mattbarton/horla.git ~/repos/horla
+cd ~/repos/horla
 git remote set-url origin https://mattbarton@github.com/mattbarton/horla.git
-sudo yum install -y vim-enhanced
-echo "alias vi=vim" >> /home/vagrant/.bashrc
-sudo yum install -y tmux zsh
+npm install
+echo You should probably go into ~/.dotfiles and do git pull when you login
 SCRIPT
 
 Vagrant.configure(2) do |config|
@@ -25,6 +25,6 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 8000, host: 8000, auto_correct: true
   config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
   config.vm.network "forwarded_port", guest: 8888, host: 8888, auto_correct: true
-  config.vm.provision "shell", inline: $script
+  config.vm.provision "shell", inline: $script, privileged: false
 end
 

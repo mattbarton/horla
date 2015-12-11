@@ -7,7 +7,7 @@ import App from './js/App';
 import Player from './js/Player';
 
 export default React.render(
-  <App player={Player()}/>, 
+  <App player={Player()}/>,
   document.querySelector('#app-container')
 );
 

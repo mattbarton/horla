@@ -19,6 +19,7 @@
   "homepage": "https://github.com/mattbarton/horla#readme",
   "private": true,
   "dependencies": {
+    "lodash": "^3.10.1",
     "react": "^0.13.3"
   },
   "devDependencies": {
