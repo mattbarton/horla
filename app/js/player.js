@@ -1,10 +1,19 @@
-// CommonJS module, needs browserify to work in browser
-// import using:
-// var player = require('player')({url: 'http'})
+/**
+ * callback gets called with position updates every 100ms or so
+ */
+export default function() {
+  return {
+    fetch,
+    play,
+    pause,
+    seek,
+    setCallback
+  }
+}
 
 var ac = new (window.AudioContext || webkitAudioContext)();
 var status = 'Loading';
-var url = 'Required parameter'
+var urlLast = '';
 var cur_para = 0;
 var buffer;
 var playing = false;
@@ -13,22 +22,22 @@ var position;
 var startTime;
 var callback;
 
-function fetch() {
+function fetch(url, fetchCallback) {
+  urlLast = url; // keep track of which url we loaded from, for info
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
   xhr.responseType = 'arraybuffer';
   xhr.onload = function() {
-    decode(xhr.response);
+    ac.decodeAudioData(xhr.response, function(audioBuffer) {
+      status = 'Ready';
+      buffer = audioBuffer;
+      fetchCallback();
+    });
   };
   xhr.send();
 };
 
 function decode(arrayBuffer) {
-  ac.decodeAudioData(arrayBuffer, function(audioBuffer) {
-    status = 'Ready';
-    buffer = audioBuffer;
-    play();
-  });
 };
 
 function connect() {
@@ -95,15 +104,3 @@ function setCallback(func) {
   callback = func;
 }
 
-module.exports = function(opts) {
-  url = opts.url;
-  // callback gets called with position updates every 100ms or so
-  callback = opts.callback || function() {};
-  fetch();
-  return {
-    play: play,
-    pause: pause,
-    seek: seek,
-    setCallback: setCallback
-  }
-}
