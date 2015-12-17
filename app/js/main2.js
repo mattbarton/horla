@@ -186,9 +186,20 @@ window.player = new Player(url, playerElement);
 
 var marks = [];
 $(window).keypress(function(event) {
-  var M_KEY = 109;
+  var M_KEY = 109
+  N_KEY = 110, P_KEY = 112;
+  console.log(event.which);
+  
   if (event.which == M_KEY) {
     window.player.saveMark()
+  }
+  
+  if (event.which == N_KEY) {
+	  window.player.pause()
+  }
+  
+  if (event.which == P_KEY) {
+	  window.player.play()
   }
 })
 

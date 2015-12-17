@@ -1,6 +1,8 @@
 from __future__ import division
 import nltk, codecs, re
 
+# use nltk.download() to install the nltk punkt package
+
 clause_re = re.compile('(.{30,}?), ')
 def pieces(s):
     if len(s) > 50:
@@ -21,7 +23,7 @@ txt = txt.replace('\n\n', ' PARAGRAPH BREAK. ')
 txt = txt.replace('\n', ' ')
 nltk.data.load('tokenizers/punkt/french.pickle')      # tokenizers/punkt/french.pickle
 sentences = nltk.sent_tokenize(txt)
-sentences = [pieces(s) for s in sentences]
+# sentences = [pieces(s) for s in sentences]  # leave as whole sentences for easier comprehension (even though they can be a bit long in french literature...)
 
 result = '\n'.join(sentences)
 result = result.replace('PARAGRAPH BREAK.', '\nPARAGRAPH BREAK.')
@@ -29,7 +31,7 @@ result = result.replace('\n\n', '\n')
 
 # convert to RST
 result = result.replace('*       *       *       *       *', '*****')
-result = result.replace('--', '&nbsp;&mdash;&nbsp;')
+# result = result.replace('--', '&nbsp;&mdash;&nbsp;')
 
 with codecs.open('out.txt', 'w', encoding='utf-8') as out:
     out.write(result)
